@@ -1,0 +1,32 @@
+{
+	"name": "infoweb-internet-solutions/yii2-cms-analytics",
+	"description": "Analytics module for Yii2",
+	"keywords": ["yii2", "yii2-cms-analytics", "analytics", "infoweb"],
+	"type": "yii2-extension",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/infoweb-internet-solutions/yii2-cms-analytics/issues?state=open",
+        "source": "https://github.com/infoweb-internet-solutions/yii2-cms-analytics"
+    },
+    "authors": [
+        {
+            "name": "Fabio Maggio",
+            "email": "fabio@infoweb.be",
+            "homepage": "http://www.infoweb.be/"
+        },
+        {
+            "name": "Ruben Heymans",
+            "email": "ruben@infoweb.be",
+            "homepage": "http://www.infoweb.be/"
+        }
+    ],
+    "minimum-stability": "dev",
+	"require": {
+	   "yiisoft/yii2": "*"
+	},
+	"autoload": {
+		"psr-4": {
+            "infoweb\\analytics\\": ""
+        }
+	}
+}
