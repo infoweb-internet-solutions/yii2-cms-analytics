@@ -9,6 +9,7 @@ class AnalyticsAsset extends AssetBundle
     public $sourcePath = '@infoweb/analytics/assets/';
     
     public $css = [
+        'css/analytics.css'
     ];
     
     public $js = [
