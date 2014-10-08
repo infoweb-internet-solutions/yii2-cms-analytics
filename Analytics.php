@@ -54,7 +54,7 @@ class Analytics extends \yii\base\Widget
         // now get some data and output the number of visits this week.
 
         // Your analytics profile id. (Admin -> Profile Settings -> Profile ID)
-        $analyticsId    = 'ga:';
+        $analyticsId    = 'ga:76903014';
         $lastWeek       = date('Y-m-d', strtotime('-1 month'));
         $today          = date('Y-m-d');
 
@@ -83,7 +83,7 @@ class Analytics extends \yii\base\Widget
         // now get some data and output the number of visits this week.
 
         // Your analytics profile id. (Admin -> Profile Settings -> Profile ID)
-        $analyticsId    = 'ga:';
+        $analyticsId    = 'ga:76903014';
         $lastWeek       = date('Y-m-d', strtotime('-1 month'));
         $today          = date('Y-m-d');
 
@@ -98,7 +98,7 @@ class Analytics extends \yii\base\Widget
             echo 'There was an error : - ' . $e->getMessage();
         }
 
-        print_r($data); exit();
+        //print_r($data); exit();
         return json_encode($data);
     }
 
