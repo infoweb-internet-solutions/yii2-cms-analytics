@@ -15,7 +15,6 @@ class AnalyticsAsset extends AssetBundle
     public $js = [
         'https://www.google.com/jsapi',
         'js/analytics.js',
-        'js/main.js',
     ];
 
     public $depends = [
@@ -23,9 +22,4 @@ class AnalyticsAsset extends AssetBundle
         'yii\widgets\ActiveFormAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
-
-    public $jsOptions = [
-        'position' => View::POS_END,
-    ];
-
 }

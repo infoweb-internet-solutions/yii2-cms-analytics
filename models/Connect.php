@@ -18,23 +18,18 @@ class Connect extends \yii\base\Action
 
         $client = new \Google_Client();
         $client->setApplicationName("API Project");
-        $client->setDeveloperKey('');
-
-        // Add this email address as a new user to your Google analytics property
-        $serviceAccountName = '';
-        $scopes = ['https://www.googleapis.com/auth/analytics.readonly'];
-        $key = file_get_contents(Yii::getAlias('@webroot') . '/certificate/');
+        $client->setDeveloperKey(Yii::$app->params['analytics']['developerKey']);
 
         $cred = new \Google_Auth_AssertionCredentials(
-            $serviceAccountName,
-            $scopes,
-            $key
+            // Add this email address as a new user to your Google analytics property
+            Yii::$app->params['analytics']['serviceAccountName'],
+            ['https://www.googleapis.com/auth/analytics.readonly'],
+            file_get_contents(Yii::getAlias('@app') . '/assets/certificate/certificate.p12')
         );
 
         $client->setAssertionCredentials($cred);
 
-        $clientId = '';
-        $client->setClientId($clientId);
+        $client->setClientId(Yii::$app->params['analytics']['clientId']);
         $client->setAccessType('offline_access');
 
         return $client;
