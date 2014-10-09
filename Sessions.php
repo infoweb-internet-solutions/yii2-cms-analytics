@@ -12,6 +12,9 @@ use infoweb\analytics\models\Connect;
 class Sessions extends \yii\base\Widget
 {
     public $client;
+    public $startDate;
+    public $endDate;
+    public $analyticsId;
 
     /**
      * Initializes the widget
@@ -23,27 +26,45 @@ class Sessions extends \yii\base\Widget
         // Get the current view
         $view = $this->getView();
 
+        // Set default values
+        if (!isset($this->startDate)) {
+            $this->startDate = date('Y-m-d', strtotime('-1 month'));
+        }
+
+        if (!isset($this->endDate)) {
+            $this->endDate = date('Y-m-d');
+        }
+
+        // Your analytics profile id. (Admin -> Profile Settings -> Profile ID)
+        $this->analyticsId = Yii::$app->params['analytics']['analyticsId'];
+
         // Connect to Google Api
         $this->client = Connect::connectAnalytics();
 
+        // Get analytics data
         $data = $this->getData();
 
+        // Set javascript variable
+        // @todo Find a better way to do this
         $view->registerJs("var sessionsData = {$data}", \yii\web\View::POS_HEAD);
+
+        // Register asssets
         SessionsAsset::register($this->view);
 
     }
 
+    /**
+     * Get the Analytics data
+     *
+     * @return string
+     */
     public function getData() {
 
+        // Connect to the analytics api
         $analytics = new \Google_Service_Analytics($this->client);
 
-        // Your analytics profile id. (Admin -> Profile Settings -> Profile ID)
-        $analyticsId    = Yii::$app->params['analytics']['analyticsId'];
-        $startDate      = date('Y-m-d', strtotime('-1 month'));
-        $endDate        = date('Y-m-d');
-
         try {
-            $results = $analytics->data_ga->get($analyticsId, $startDate, $endDate, 'ga:sessions', ['dimensions' => 'ga:date']);
+            $results = $analytics->data_ga->get($this->analyticsId, $this->startDate, $this->endDate, 'ga:sessions', ['dimensions' => 'ga:date']);
 
             $data[] = ['Day', 'Sessions'];
 
@@ -59,6 +80,11 @@ class Sessions extends \yii\base\Widget
         return json_encode($data);
     }
 
+    /**
+     * Run the widget
+     *
+     * @return string
+     */
     public function run()
     {
         return $this->render('sessions');

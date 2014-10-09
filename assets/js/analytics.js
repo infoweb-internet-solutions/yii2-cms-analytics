@@ -81,13 +81,7 @@
 
         var google = window.google;
 
-        //var data = google.visualization.arrayToDataTable(window.visitorsData);
-
-        var data = google.visualization.arrayToDataTable([
-            ['Title', 'Total'],
-            ['Returning visitor', 11450],
-            ['New visitor', 6643],
-        ]);
+        var data = google.visualization.arrayToDataTable(window.visitorsData);
 
         var options = {
             alignment: 'center',
