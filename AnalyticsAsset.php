@@ -15,6 +15,7 @@ class AnalyticsAsset extends AssetBundle
     public $js = [
         'https://www.google.com/jsapi',
         'js/analytics.js',
+        'js/main.js',
     ];
 
     public $depends = [

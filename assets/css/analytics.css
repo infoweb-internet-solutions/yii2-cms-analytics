@@ -8,3 +8,30 @@
     width: 100%;
     height: 220px;
 }
+
+/**
+ * Countries table
+ */
+
+.google-visualization-table-tr-head .gradient,
+.google-visualization-table-tr-head-nonstrict .gradient,
+.google-visualization-table-div-page .gradient {
+    background: none !important;
+    border: none;
+}
+
+.google-visualization-table-tr-head,
+.google-visualization-table-tr-head td,
+.google-visualization-table-tr-head-nonstrict {
+    text-align: left !important;
+}
+
+.google-visualization-table-td {
+    padding: 8px 8px 7px !important;
+}
+
+.google-visualization-table-tr-over,
+.google-visualization-table-tr-over td,
+.google-visualization-table-tr-over-nonstrict {
+    background-color: #ffffcc !important;
+}

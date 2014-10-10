@@ -11,11 +11,12 @@ use infoweb\analytics\models\Connect;
  */
 class Analytics extends \yii\base\Widget
 {
-
-    public $client;
+    public $startDate;
+    public $endDate;
     public $dataType;
     const SESSIONS = 'sessions';
     const VISITORS = 'visitors';
+    const COUNTRIES = 'countries';
 
     /**
      * Initializes the widget
@@ -27,90 +28,62 @@ class Analytics extends \yii\base\Widget
         // Get the current view
         $view = $this->getView();
 
-        // Connect to Google Api
-        $this->client = Connect::connectAnalytics();
+        $connection = new Connect;
 
+        // Set default values
+        // @todo Find a better way to do this
+        if (!isset($this->startDate)) {
+            $connection->startDate = date('Y-m-d', strtotime('-1 month'));
+        } else {
+            $connection->startDate = $this->startDate;
+        }
+
+        if (!isset($this->endDate)) {
+            $connection->endDate = date('Y-m-d');
+        } else {
+            $connection->endDate = $this->endDate;
+        }
+
+        // Get analytics data
         switch ($this->dataType) {
+
             case Analytics::SESSIONS:
-                $data = $this->getSessions();
+                $data = $connection->getSessions();
+
+                // Set javascript variable
+                // @todo Find a better way to do this
+                $view->registerJs("var sessionsData = {$data}", \yii\web\View::POS_HEAD);
+
                 break;
+
             case Analytics::VISITORS:
-                $data = $this->getVisitors();
+                $data = $connection->getVisitors();
+
+                // Set javascript variable
+                // @todo Find a better way to do this
+                $view->registerJs("var visitorsData = {$data}", \yii\web\View::POS_HEAD);
+
+                break;
+
+            case Analytics::COUNTRIES:
+                $data = $connection->getCountries();
+
+                // Set javascript variable
+                // @todo Find a better way to do this
+                $view->registerJs("var countriesData = {$data}", \yii\web\View::POS_HEAD);
+
                 break;
         }
 
-        $view->registerJs("var analyticsData = {$data}", \yii\web\View::POS_HEAD);
+        // Register asssets
         AnalyticsAsset::register($this->view);
 
-
-    }
-
-    public function getSessions() {
-
-        // @todo move to connection class
-
-        $analytics = new \Google_Service_Analytics($this->client);
-        // We have finished setting up the connection,
-        // now get some data and output the number of visits this week.
-
-        // Your analytics profile id. (Admin -> Profile Settings -> Profile ID)
-        $analyticsId    = 'ga:76903014';
-        $lastWeek       = date('Y-m-d', strtotime('-1 month'));
-        $today          = date('Y-m-d');
-
-        try {
-            $results = $analytics->data_ga->get($analyticsId, $lastWeek, $today, 'ga:visits', ['dimensions' => 'ga:date']);
-
-            $data[] = ['Day', 'Visits'];
-
-            foreach ($results['rows'] as $result)
-            {
-                $data[] = [date('d-m-Y', strtotime($result[0])), (int)$result[1]];
-            }
-
-
-        } catch(Exception $e) {
-            echo 'There was an error : - ' . $e->getMessage();
-        }
-
-        return json_encode($data);
-    }
-
-    public function getVisitors() {
-
-        $analytics = new \Google_Service_Analytics($this->client);
-        // We have finished setting up the connection,
-        // now get some data and output the number of visits this week.
-
-        // Your analytics profile id. (Admin -> Profile Settings -> Profile ID)
-        $analyticsId    = 'ga:76903014';
-        $lastWeek       = date('Y-m-d', strtotime('-1 month'));
-        $today          = date('Y-m-d');
-
-        try {
-
-            $data = [];
-            $data['returningVisitors'] = $analytics->data_ga->get($analyticsId, $lastWeek, $today, 'ga:sessions', ['segment' => 'gaid::-3']);
-            $data['newVisitors'] = $analytics->data_ga->get($analyticsId, $lastWeek, $today, 'ga:sessions', ['segment' => 'gaid::-2']);
-
-        } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
-        }
-
-        //print_r($data); exit();
-        return json_encode($data);
     }
 
     /**
-     * Registers the needed assets
-
-    public function registerAssets()
-    {
-        $view = $this->getView();
-        AnalyticsAsset::register($view);
-        //$this->registerPlugin('checkboxX');
-    }
+     * Run the widget
+     *
+     * @return string
      */
     public function run()
     {

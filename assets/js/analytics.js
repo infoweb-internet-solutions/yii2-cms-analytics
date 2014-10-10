@@ -5,16 +5,40 @@
         module.exports = factory;
     } else {
         root.Analytics = factory();
-    }    
+    }
 })(this, function () {
 
     'use strict';
-    
-    var Analytics = {};
-    
-    // Module initialization
-    Analytics.init = function() {
 
+    var Analytics = {};
+
+    Analytics.settings = {
+        render: []
+    };
+
+    // Module initialization
+    Analytics.init = function(settings) {
+
+        var settings = settings || {};
+
+        $.extend(Analytics.settings, settings);
+
+        // Load analytics
+        google.load("visualization", "1", {packages: ["corechart", "table"]});
+        google.setOnLoadCallback(Analytics.renderData);
+
+    };
+
+    Analytics.renderData = function() {
+
+        $.each(Analytics.settings.render, function() {
+            var func = 'render'+this;
+
+            if (typeof Analytics[func] === 'function') {
+                Analytics[func]();
+            }
+
+        });
     };
 
     Analytics.renderSessionsGraph = function() {
@@ -124,5 +148,40 @@
         chart.draw(data, options);
     };
 
-    return Analytics;    
+    Analytics.renderCountriesTable = function() {
+
+        var data = new google.visualization.DataTable(window.countriesData);
+/*
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Name');
+        data.addColumn('number', 'Salary');
+        data.addColumn('boolean', 'Full Time Employee');
+        data.addRows([
+            ['Mike',  10000, true],
+            ['Jim',   {v:8000,   f: '$8,000'},  false],
+            ['Alice', {v: 12500, f: '$12,500'}, true],
+            ['Bob',   {v: 7000,  f: '$7,000'},  true]
+        ]);
+
+
+        //$flag_img = '<span style="width:16px; height:11px;" class="peplamb-gav-'.$countries[strtolower($result->getCountry())].'" title="'.$result->getCountry().'"> </span>';
+
+ */
+
+
+
+        var options = {
+            showRowNumber: true,
+            allowHtml: true,
+            cssClassNames: {
+                selectedTableRow: 'test'
+            }
+        };
+
+        var table = new google.visualization.Table(document.getElementById('analytics-countries'));
+
+        table.draw(data, options);
+
+    }
+    return Analytics;
 });
