@@ -152,29 +152,14 @@
 
         var data = new google.visualization.DataTable(window.countriesData);
 /*
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Name');
-        data.addColumn('number', 'Salary');
-        data.addColumn('boolean', 'Full Time Employee');
-        data.addRows([
-            ['Mike',  10000, true],
-            ['Jim',   {v:8000,   f: '$8,000'},  false],
-            ['Alice', {v: 12500, f: '$12,500'}, true],
-            ['Bob',   {v: 7000,  f: '$7,000'},  true]
-        ]);
-
-
         //$flag_img = '<span style="width:16px; height:11px;" class="peplamb-gav-'.$countries[strtolower($result->getCountry())].'" title="'.$result->getCountry().'"> </span>';
-
  */
-
-
 
         var options = {
             showRowNumber: true,
             allowHtml: true,
             cssClassNames: {
-                selectedTableRow: 'test'
+                //selectedTableRow: 'test'
             }
         };
 
@@ -182,6 +167,29 @@
 
         table.draw(data, options);
 
-    }
+    };
+
+    Analytics.renderTotalSessions = function() {
+        document.getElementById('totalSessions').innerHTML = window.totalSessionsData;
+    };
+
+    Analytics.renderTotalUsers = function() {
+        document.getElementById('totalUsers').innerHTML = window.totalUsersData;
+    };
+
+    Analytics.renderTotalPageViews = function() {
+        document.getElementById('totalPageViews').innerHTML = window.totalPageViewsData;
+    };
+
+    /*
+    Analytics.renderTotalPagesSession = function() {
+        document.getElementById('totalPagesSession').innerHTML = window.totalPagesSession;
+    };
+    */
+
+    Analytics.renderAverageSessionLength = function() {
+        document.getElementById('averageSessionLength').innerHTML = window.averageSessionLengthData;
+    };
+
     return Analytics;
 });

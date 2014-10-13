@@ -4,5 +4,9 @@ Analytics.init({
         'SessionsGraph',
         'VisitorsGraph',
         'CountriesTable',
+        'TotalSessions',
+        'TotalUsers',
+        'TotalPageViews',
+        'AverageSessionLength',
     ]
 });

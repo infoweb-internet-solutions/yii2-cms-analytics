@@ -17,6 +17,10 @@ class Analytics extends \yii\base\Widget
     const SESSIONS = 'sessions';
     const VISITORS = 'visitors';
     const COUNTRIES = 'countries';
+    const TOTAl_SESSIONS = 'total_sessions';
+    const TOTAL_USERS = 'total_users';
+    const TOTAL_PAGE_VIEWS = 'total_page_views';
+    const AVERAGE_SESSION_LENGTH = 'average_session_length';
 
     /**
      * Initializes the widget
@@ -71,6 +75,42 @@ class Analytics extends \yii\base\Widget
                 // Set javascript variable
                 // @todo Find a better way to do this
                 $view->registerJs("var countriesData = {$data}", \yii\web\View::POS_HEAD);
+
+                break;
+
+            case Analytics::TOTAl_SESSIONS:
+                $data = $connection->getTotalSessions();
+
+                // Set javascript variable
+                // @todo Find a better way to do this
+                $view->registerJs("var totalSessionsData = {$data}", \yii\web\View::POS_HEAD);
+
+                break;
+
+            case Analytics::TOTAL_USERS:
+                $data = $connection->getTotalUsers();
+
+                // Set javascript variable
+                // @todo Find a better way to do this
+                $view->registerJs("var totalUsersData = {$data}", \yii\web\View::POS_HEAD);
+
+                break;
+
+            case Analytics::TOTAL_PAGE_VIEWS:
+                $data = $connection->getTotalPageViews();
+
+                // Set javascript variable
+                // @todo Find a better way to do this
+                $view->registerJs("var totalPageViewsData = {$data}", \yii\web\View::POS_HEAD);
+
+                break;
+
+            case Analytics::AVERAGE_SESSION_LENGTH:
+                $data = $connection->getAverageSessionLength();
+
+                // Set javascript variable
+                // @todo Find a better way to do this
+                $view->registerJs("var averageSessionLengthData = {$data}", \yii\web\View::POS_HEAD);
 
                 break;
         }

@@ -22,10 +22,58 @@ or add
 to the require section of your `composer.json` file.
 
 
+Go to the [Google developers console](https://console.developers.google.com)
+Create a new project (or use an existing project)
+Open the project
+Go to 'API & Auth -> API's' and enable the 'Analytics API'
+Go to 'API & Auth -> Credentials' and under 'OAuth' click 'Create new Client ID'
+Choose 'Service account' and click 'Create client id'
+Save the certificate to 'backend\assets\certificate\certificate.p12' (don't forget to rename the file)
+Write down the 'private key's password' somewhere
+Add the credentials to your params
+
+```php
+return [
+    ...
+    'analytics' => [
+        'developerKey' => '', // Public key fingerprints
+        'serviceAccountName' => 'xxx@developer.gserviceaccount.com', // Email address
+        'clientId' => 'xxx.apps.googleusercontent.com', // Client ID
+    ],
+];
+```
+
+Go to [Google analytics](https://www.google.com/analytics/), open your property and get your 'Profile ID'
+(It is the number at the end of the URL starting with p: https://www.google.com/analytics/web/#home/a11345062w43527078pXXXXXXXX/)
+Add the 'Profile ID' to your
+
+```php
+return [
+    ...
+    'analytics' => [
+        ...
+        'analyticsId' => 'ga:XXXXXXXX',
+    ],
+];
+```
+
+Add the serviceAccountName (xxx@developer.gserviceaccount.com) as a new user to your Analyics property
+
+
 Usage
 -----
 
 Once the extension is installed, simply use it in your code by :
 
 ```php
-<?= \infoweb\analytics\AutoloadExample::widget(); ?>```
+
+    <?= Analytics::widget(['dataType' => Analytics::TOTAl_SESSIONS]); ?>
+    <?= Analytics::widget(['dataType' => Analytics::TOTAL_USERS]); ?>
+    <?= Analytics::widget(['dataType' => Analytics::TOTAL_PAGE_VIEWS]); ?>
+    <?= Analytics::widget(['dataType' => Analytics::AVERAGE_SESSION_LENGTH]); ?>
+
+    <?= Analytics::widget(['dataType' => Analytics::SESSIONS]); ?>
+    <?= Analytics::widget(['dataType' => Analytics::VISITORS]); ?>
+    <?= Analytics::widget(['dataType' => Analytics::COUNTRIES]); ?>
+```
+

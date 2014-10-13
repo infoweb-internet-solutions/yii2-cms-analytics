@@ -129,10 +129,27 @@ class Connect extends \yii\base\Action
                 ];
             }
 
+        } catch(Exception $e) {
+            // @todo Yii exception
+            echo 'There was an error : - ' . $e->getMessage();
+        }
 
+        return json_encode($data);
+    }
 
+    /**
+     * Get total sessions data
+     *
+     * @return string
+     */
+    public function getTotalSessions() {
 
-            //mail('ruben@infoweb.be', __FILE__ . ' => ' . __LINE__, var_export($data, TRUE));
+        $analytics = $this->connectAnalytics();
+
+        try {
+            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions')->getTotalsForAllResults();
+
+            $data = $results['ga:sessions'];
 
         } catch(Exception $e) {
             // @todo Yii exception
@@ -142,7 +159,72 @@ class Connect extends \yii\base\Action
         return json_encode($data);
     }
 
+    /**
+     * Get total users data
+     *
+     * @return string
+     */
+    public function getTotalUsers() {
 
+        $analytics = $this->connectAnalytics();
+
+        try {
+            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:users')->getTotalsForAllResults();
+
+            $data = $results['ga:users'];
+
+        } catch(Exception $e) {
+            // @todo Yii exception
+            echo 'There was an error : - ' . $e->getMessage();
+        }
+
+        return json_encode($data);
+    }
+
+    /**
+     * Get total page views data
+     *
+     * @return string
+     */
+    public function getTotalPageViews() {
+
+        $analytics = $this->connectAnalytics();
+
+        try {
+            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:pageviews')->getTotalsForAllResults();
+
+            $data = $results['ga:pageviews'];
+
+        } catch(Exception $e) {
+            // @todo Yii exception
+            echo 'There was an error : - ' . $e->getMessage();
+        }
+
+        return json_encode($data);
+    }
+
+    /**
+     * Get average session length data
+     *
+     * @return string
+     */
+    public function getAverageSessionLength() {
+
+        $analytics = $this->connectAnalytics();
+
+        try {
+            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:avgSessionDuration')->getTotalsForAllResults();
+
+            $data = gmdate('H:i:m', $results['ga:avgSessionDuration']);
+
+
+        } catch(Exception $e) {
+            // @todo Yii exception
+            echo 'There was an error : - ' . $e->getMessage();
+        }
+
+        return json_encode($data);
+    }
 
 
 }
