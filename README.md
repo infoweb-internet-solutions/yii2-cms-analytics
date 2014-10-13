@@ -79,6 +79,13 @@ Once the extension is installed, simply use it in your code by :
 
 ```php
 <div class="row">
+    <div class="col-lg-12">
+        <span class="pull-right"><strong><?= Yii::t('app', 'From') ?>&nbsp;<?= date('d-m-Y', strtotime('-1 month')); ?>&nbsp;<?= Yii::t('app', 'to') ?>&nbsp;<?= date('d-m-Y') ?></strong></span>
+        <h1 class="page-header">Dashboard</h1>
+    </div>
+</div>
+
+<div class="row">
     <?= Analytics::widget(['dataType' => Analytics::TOTAl_SESSIONS]); ?>
     <?= Analytics::widget(['dataType' => Analytics::TOTAL_USERS]); ?>
     <?= Analytics::widget(['dataType' => Analytics::TOTAL_PAGE_VIEWS]); ?>

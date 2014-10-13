@@ -157,8 +157,7 @@
 
         var options = {
             showRowNumber: true,
-            allowHtml: true,
-            sortColumn : 0
+            allowHtml: true
         };
 
         var table = new google.visualization.Table(document.getElementById('analytics-countries'));
