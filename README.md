@@ -78,18 +78,26 @@ Usage
 Once the extension is installed, simply use it in your code by :
 
 ```php
-
+<div class="row">
     <?= Analytics::widget(['dataType' => Analytics::TOTAl_SESSIONS]); ?>
     <?= Analytics::widget(['dataType' => Analytics::TOTAL_USERS]); ?>
     <?= Analytics::widget(['dataType' => Analytics::TOTAL_PAGE_VIEWS]); ?>
     <?= Analytics::widget(['dataType' => Analytics::AVERAGE_SESSION_LENGTH]); ?>
+</div>
 
+<div class="row">
     <?= Analytics::widget(['dataType' => Analytics::SESSIONS]); ?>
+</div>
+<div class="row">
     <?= Analytics::widget(['dataType' => Analytics::VISITORS]); ?>
     <?= Analytics::widget(['dataType' => Analytics::COUNTRIES]); ?>
+</div>
 ```
 
 Useful links
 ------------
 
 [Google Analytics Query Explorer 2](https://ga-dev-tools.appspot.com/explorer/)
+[Google API Php Client]https://github.com/google/google-api-php-client
+[Developer Documentation]https://developers.google.com/api-client-library/php/
+[Google Charts]https://developers.google.com/chart/?hl=nl

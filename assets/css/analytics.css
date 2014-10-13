@@ -35,3 +35,7 @@
 .google-visualization-table-tr-over-nonstrict {
     background-color: #ffffcc !important;
 }
+
+.google-visualization-table-tr-head .google-visualization-table-th:first-child {
+    width: 5%;
+}

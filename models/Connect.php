@@ -125,7 +125,7 @@ class Connect extends \yii\base\Action
             {
                 $data['rows'][] = ['c' => [
                     ['v' => $result[0]],
-                    ['v' => (int)$result[1]]]
+                    ['v' => (int)$result[1]]],
                 ];
             }
 
@@ -149,7 +149,7 @@ class Connect extends \yii\base\Action
         try {
             $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions')->getTotalsForAllResults();
 
-            $data = $results['ga:sessions'];
+            $data = number_format($results['ga:sessions'], 0, ',', '.');
 
         } catch(Exception $e) {
             // @todo Yii exception
@@ -171,7 +171,7 @@ class Connect extends \yii\base\Action
         try {
             $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:users')->getTotalsForAllResults();
 
-            $data = $results['ga:users'];
+            $data = number_format($results['ga:users'], 0, ',', '.');
 
         } catch(Exception $e) {
             // @todo Yii exception
@@ -193,7 +193,7 @@ class Connect extends \yii\base\Action
         try {
             $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:pageviews')->getTotalsForAllResults();
 
-            $data = $results['ga:pageviews'];
+            $data = number_format($results['ga:pageviews'], 0, ',', '.');
 
         } catch(Exception $e) {
             // @todo Yii exception

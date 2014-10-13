@@ -158,9 +158,7 @@
         var options = {
             showRowNumber: true,
             allowHtml: true,
-            cssClassNames: {
-                //selectedTableRow: 'test'
-            }
+            sortColumn : 0
         };
 
         var table = new google.visualization.Table(document.getElementById('analytics-countries'));
