@@ -22,6 +22,7 @@ or add
 to the require section of your `composer.json` file.
 
 
+
 Go to the [Google developers console](https://console.developers.google.com)
 
 Create a new project (or use an existing project)
@@ -67,6 +68,7 @@ return [
 ];
 ```
 
+
 Add the serviceAccountName (xxx@developer.gserviceaccount.com) as a new user to your Analyics property
 
 
@@ -90,4 +92,4 @@ Once the extension is installed, simply use it in your code by :
 Usefull links
 -------------
 
-https://ga-dev-tools.appspot.com/explorer/
+[Google Analytics Query Explorer 2](https://ga-dev-tools.appspot.com/explorer/)
