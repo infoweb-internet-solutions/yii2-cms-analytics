@@ -89,7 +89,7 @@ Once the extension is installed, simply use it in your code by :
     <?= Analytics::widget(['dataType' => Analytics::COUNTRIES]); ?>
 ```
 
-Usefull links
--------------
+Useful links
+------------
 
 [Google Analytics Query Explorer 2](https://ga-dev-tools.appspot.com/explorer/)
