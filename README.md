@@ -10,13 +10,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist infoweb/yii2-cms-analytics "*"
+php composer.phar require --prefer-dist infoweb-internet-solutions/yii2-cms-analytics "*"
 ```
 
 or add
 
 ```
-"infoweb/yii2-cms-analytics": "*"
+"infoweb-internet-solutions/yii2-cms-analytics": "*"
 ```
 
 to the require section of your `composer.json` file.
@@ -71,6 +71,9 @@ return [
 
 Add the serviceAccountName (xxx@developer.gserviceaccount.com) as a new user to your Analyics property
 
+
+Create the alias '@google/api' in the bootstrap file in common/config like so:
+Yii::setAlias('google/api', dirname(dirname(__DIR__)) . '/vendor/google/apiclient/src');
 
 Usage
 -----
