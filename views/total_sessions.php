@@ -1,7 +1,7 @@
 <div class="col-sm-6 col-lg-3">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <div><?= Yii::t('app', 'Sessions'); ?></div>
+            <div><?= Yii::t('infoweb/analytics', 'Sessions'); ?></div>
             <div class="huge" id="totalSessions"></div>
             <?php /*
             <div class="row">

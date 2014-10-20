@@ -3,6 +3,7 @@
 namespace infoweb\analytics\models;
 
 use Yii;
+use yii\base\Exception as BaseException;
 
 /**
  *
@@ -60,7 +61,7 @@ class Connect extends \yii\base\Action
             // You can find your analytics profile id here: Admin -> Profile Settings -> Profile ID
             $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['dimensions' => 'ga:date']);
 
-            $data[] = ['Day', 'Sessions'];
+            $data[] = [Yii::t('infoweb/analytics', 'Day'), Yii::t('infoweb/analytics', 'Sessions')];
 
             foreach ($results['rows'] as $result)
             {
@@ -68,8 +69,7 @@ class Connect extends \yii\base\Action
             }
 
         } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
+            throw new BaseException(Yii::t('infoweb/analytics', 'Error while fetching data from Google Analytics'));
         }
 
         return json_encode($data);
@@ -89,14 +89,13 @@ class Connect extends \yii\base\Action
             $results['returningVisitors'] = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['segment' => 'gaid::-3'])->getTotalsForAllResults();
             $results['newVisitors'] = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['segment' => 'gaid::-2'])->getTotalsForAllResults();
 
-            $data[] = ['Title', 'Total'];
+            $data[] = [Yii::t('infoweb/analytics', 'Title'), Yii::t('infoweb/analytics', 'Total')];
 
-            $data[] = ['Returning visitor', (int)$results['returningVisitors']['ga:sessions']];
-            $data[] = ['New visitor', (int)$results['newVisitors']['ga:sessions']];
+            $data[] = [Yii::t('infoweb/analytics', 'Returning visitor'), (int)$results['returningVisitors']['ga:sessions']];
+            $data[] = [Yii::t('infoweb/analytics', 'New visitor'), (int)$results['newVisitors']['ga:sessions']];
 
         } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
+            throw new BaseException(Yii::t('infoweb/analytics', 'Error while fetching data from Google Analytics'));
         }
 
         return json_encode($data);
@@ -117,8 +116,8 @@ class Connect extends \yii\base\Action
             $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['dimensions' => 'ga:country', 'sort' => '-ga:sessions', 'max-results' => 10]);
 
             $data['cols'] = [
-                ['id' => 'countries', 'label' => 'Countries', 'type' => 'string'],
-                ['id' => 'sessions', 'label' => 'Sessions', 'type' => 'number'],
+                ['id' => 'countries', 'label' => Yii::t('infoweb/analytics', 'Countries'), 'type' => 'string'],
+                ['id' => 'sessions', 'label' => Yii::t('infoweb/analytics', 'Sessions'), 'type' => 'number'],
             ];
 
             foreach ($results['rows'] as $result)
@@ -130,8 +129,7 @@ class Connect extends \yii\base\Action
             }
 
         } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
+            throw new BaseException(Yii::t('infoweb/analytics', 'Error while fetching data from Google Analytics'));
         }
 
         return json_encode($data);
@@ -152,8 +150,7 @@ class Connect extends \yii\base\Action
             $data = number_format($results['ga:sessions'], 0, ',', '.');
 
         } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
+            throw new BaseException(Yii::t('infoweb/analytics', 'Error while fetching data from Google Analytics'));
         }
 
         return json_encode($data);
@@ -174,8 +171,7 @@ class Connect extends \yii\base\Action
             $data = number_format($results['ga:users'], 0, ',', '.');
 
         } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
+            throw new BaseException(Yii::t('infoweb/analytics', 'Error while fetching data from Google Analytics'));
         }
 
         return json_encode($data);
@@ -196,8 +192,7 @@ class Connect extends \yii\base\Action
             $data = number_format($results['ga:pageviews'], 0, ',', '.');
 
         } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
+            throw new BaseException(Yii::t('infoweb/analytics', 'Error while fetching data from Google Analytics'));
         }
 
         return json_encode($data);
@@ -219,8 +214,7 @@ class Connect extends \yii\base\Action
 
 
         } catch(Exception $e) {
-            // @todo Yii exception
-            echo 'There was an error : - ' . $e->getMessage();
+            throw new BaseException(Yii::t('infoweb/analytics', 'Error while fetching data from Google Analytics'));
         }
 
         return json_encode($data);
