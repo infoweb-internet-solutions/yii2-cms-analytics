@@ -39,3 +39,7 @@
 .google-visualization-table-tr-head .google-visualization-table-th:first-child {
     width: 5%;
 }
+
+.page-header .report-period {
+    font-size: 15px;
+}

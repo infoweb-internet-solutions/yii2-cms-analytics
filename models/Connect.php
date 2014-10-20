@@ -15,37 +15,44 @@ class Connect extends \yii\base\Action
 
     public $startDate;
     public $endDate;
+    public $connection = null;
 
     public function __construct() {
         parent::init();
+        
+        // Create the connection
+        $this->connectToAnalytics();
     }
 
-    public function connectAnalytics() {
+    public function connectToAnalytics() {
 
-        require_once Yii::getAlias('@google/api') . '/Google/Client.php';
-        require_once Yii::getAlias('@google/api') . '/Google/Service/Analytics.php';
+        if ($this->connection == null) {
+            require_once Yii::getAlias('@google/api') . '/Google/Client.php';
+            require_once Yii::getAlias('@google/api') . '/Google/Service/Analytics.php';
+    
+            $client = new \Google_Client();
+            $client->setApplicationName("API Project");
+            $client->setDeveloperKey(Yii::$app->params['analytics']['developerKey']);
+    
+            $cred = new \Google_Auth_AssertionCredentials(
+            // Add this email address as a new user to your Google analytics property
+                Yii::$app->params['analytics']['serviceAccountName'],
+                ['https://www.googleapis.com/auth/analytics.readonly'],
+                file_get_contents(Yii::getAlias('@app') . '/assets/certificate/certificate.p12')
+            );
+    
+            $client->setAssertionCredentials($cred);
+    
+            $client->setClientId(Yii::$app->params['analytics']['clientId']);
+            $client->setAccessType('offline_access');
+    
+            // Connect to the analytics api
+            $analytics = new \Google_Service_Analytics($client);
+    
+            $this->connection = $analytics;
+        }
 
-        $client = new \Google_Client();
-        $client->setApplicationName("API Project");
-        $client->setDeveloperKey(Yii::$app->params['analytics']['developerKey']);
-
-        $cred = new \Google_Auth_AssertionCredentials(
-        // Add this email address as a new user to your Google analytics property
-            Yii::$app->params['analytics']['serviceAccountName'],
-            ['https://www.googleapis.com/auth/analytics.readonly'],
-            file_get_contents(Yii::getAlias('@app') . '/assets/certificate/certificate.p12')
-        );
-
-        $client->setAssertionCredentials($cred);
-
-        $client->setClientId(Yii::$app->params['analytics']['clientId']);
-        $client->setAccessType('offline_access');
-
-        // Connect to the analytics api
-        $analytics = new \Google_Service_Analytics($client);
-
-        return $analytics;
-
+        return $this->connection;
     }
 
     /**
@@ -55,11 +62,9 @@ class Connect extends \yii\base\Action
      */
     public function getSessions() {
 
-        $analytics = $this->connectAnalytics();
-
         try {
             // You can find your analytics profile id here: Admin -> Profile Settings -> Profile ID
-            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['dimensions' => 'ga:date']);
+            $results = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['dimensions' => 'ga:date']);
 
             $data[] = [Yii::t('infoweb/analytics', 'Day'), Yii::t('infoweb/analytics', 'Sessions')];
 
@@ -82,12 +87,10 @@ class Connect extends \yii\base\Action
      */
     public function getVisitors() {
 
-        $analytics = $this->connectAnalytics();
-
         try {
 
-            $results['returningVisitors'] = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['segment' => 'gaid::-3'])->getTotalsForAllResults();
-            $results['newVisitors'] = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['segment' => 'gaid::-2'])->getTotalsForAllResults();
+            $results['returningVisitors'] = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['segment' => 'gaid::-3'])->getTotalsForAllResults();
+            $results['newVisitors'] = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['segment' => 'gaid::-2'])->getTotalsForAllResults();
 
             $data[] = [Yii::t('infoweb/analytics', 'Title'), Yii::t('infoweb/analytics', 'Total')];
 
@@ -108,12 +111,10 @@ class Connect extends \yii\base\Action
      */
     public function getCountries() {
 
-        $analytics = $this->connectAnalytics();
-
         try {
 
-            //$results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['sort' => '-ga:sessions', 'max-results' => 10]);
-            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['dimensions' => 'ga:country', 'sort' => '-ga:sessions', 'max-results' => 10]);
+            //$results = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['sort' => '-ga:sessions', 'max-results' => 10]);
+            $results = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions', ['dimensions' => 'ga:country', 'sort' => '-ga:sessions', 'max-results' => 10]);
 
             $data['cols'] = [
                 ['id' => 'countries', 'label' => Yii::t('infoweb/analytics', 'Countries'), 'type' => 'string'],
@@ -142,10 +143,8 @@ class Connect extends \yii\base\Action
      */
     public function getTotalSessions() {
 
-        $analytics = $this->connectAnalytics();
-
         try {
-            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions')->getTotalsForAllResults();
+            $results = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:sessions')->getTotalsForAllResults();
 
             $data = number_format($results['ga:sessions'], 0, ',', '.');
 
@@ -163,10 +162,8 @@ class Connect extends \yii\base\Action
      */
     public function getTotalUsers() {
 
-        $analytics = $this->connectAnalytics();
-
         try {
-            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:users')->getTotalsForAllResults();
+            $results = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:users')->getTotalsForAllResults();
 
             $data = number_format($results['ga:users'], 0, ',', '.');
 
@@ -184,10 +181,8 @@ class Connect extends \yii\base\Action
      */
     public function getTotalPageViews() {
 
-        $analytics = $this->connectAnalytics();
-
         try {
-            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:pageviews')->getTotalsForAllResults();
+            $results = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:pageviews')->getTotalsForAllResults();
 
             $data = number_format($results['ga:pageviews'], 0, ',', '.');
 
@@ -205,10 +200,8 @@ class Connect extends \yii\base\Action
      */
     public function getAverageSessionLength() {
 
-        $analytics = $this->connectAnalytics();
-
         try {
-            $results = $analytics->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:avgSessionDuration')->getTotalsForAllResults();
+            $results = $this->connection->data_ga->get(Yii::$app->params['analytics']['analyticsId'], $this->startDate, $this->endDate, 'ga:avgSessionDuration')->getTotalsForAllResults();
 
             $data = gmdate('H:i:m', $results['ga:avgSessionDuration']);
 
