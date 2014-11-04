@@ -61,7 +61,7 @@
             },
             vAxis: {
                 minValue: 0,
-                ticks: [500, 1000],
+                //ticks: [20, 40],
                 textPosition: 'in',
                 textStyle: {
                     fontName: 'Arial',
