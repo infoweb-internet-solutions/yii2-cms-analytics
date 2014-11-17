@@ -23,7 +23,7 @@
     "minimum-stability": "dev",
 	"require": {
 	   "yiisoft/yii2": "*",
-        "google/apiclient": "1.0.6-beta"
+        "google/apiclient": "*"
 
 	},
 	"autoload": {
