@@ -20,7 +20,7 @@ class Connect extends \yii\base\Action
     public function __construct()
     {
         parent::init();
-        
+
         // Read the connection from cache
         $connection = $this->readFromCache('infoweb/analytics/connection');
         
@@ -32,12 +32,12 @@ class Connect extends \yii\base\Action
     }
 
     public function connectToAnalytics()
-    {       
+    {
         if ($this->connection == null) {
             require_once Yii::getAlias('@google/api') . '/Google/Client.php';
             require_once Yii::getAlias('@google/api') . '/Google/Service/Analytics.php';
     
-            $client = new \Google_Client();
+            $client = new \Google_Client(); //'../config.php'
             $client->setApplicationName("API Project");
             $client->setDeveloperKey(Yii::$app->params['analytics']['developerKey']);
     
