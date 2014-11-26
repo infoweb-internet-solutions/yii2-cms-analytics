@@ -73,7 +73,9 @@ Add the serviceAccountName (xxx@developer.gserviceaccount.com) as a new user to 
 
 
 Create the alias '@google/api' in the bootstrap file in common/config like so:
+```
 Yii::setAlias('google/api', dirname(dirname(__DIR__)) . '/vendor/google/apiclient/src');
+```
 
 Import the translations and use category 'infoweb/analytics':
 ```
