@@ -39,7 +39,7 @@ Save the certificate to 'backend\assets\certificate\certificate.p12' (don't forg
 
 Write down the 'private key's password' somewhere
 
-Add the credentials to your params
+Add the credentials to your backend params
 
 ```php
 return [
