@@ -123,7 +123,7 @@ use infoweb\analytics\Analytics;
 Useful links
 ------------
 
-[Google Analytics Query Explorer 2](https://ga-dev-tools.appspot.com/explorer/)
-[Google API Php Client]https://github.com/google/google-api-php-client
+[Google Analytics Query Explorer 2](https://ga-dev-tools.appspot.com/explorer/)    
+[Google API Php Client]https://github.com/google/google-api-php-client  
 [Developer Documentation]https://developers.google.com/api-client-library/php/
 [Google Charts]https://developers.google.com/chart/?hl=nl
