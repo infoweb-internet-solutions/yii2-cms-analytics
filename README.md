@@ -82,7 +82,7 @@ Import the translations and use category 'infoweb/analytics':
 yii i18n/import @infoweb/analytics/messages
 ```
 
-If you can't access the /tmp folder on your server (shared hosting), change R94 in vendor\google\apiclient\src\Google\
+If you can't access the /tmp folder on your server (shared hosting), change line 94 in vendor\google\apiclient\src\Google\
 ```
 'directory' => dirname(Yii::getAlias('@webroot')) . '/runtime/Google_Client'
 ```
