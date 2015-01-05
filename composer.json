@@ -20,10 +20,9 @@
             "homepage": "http://www.infoweb.be/"
         }
     ],
-    "minimum-stability": "dev",
 	"require": {
-	   "yiisoft/yii2": "*",
-        "google/apiclient": "*"
+	   "yiisoft/yii2": "@stable",
+        "google/apiclient": "@stable"
 
 	},
 	"autoload": {
