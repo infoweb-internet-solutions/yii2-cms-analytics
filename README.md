@@ -15,7 +15,7 @@ php composer.phar require --prefer-dist infoweb-internet-solutions/yii2-cms-anal
 
 or add
 
-```
+```json
 "infoweb-internet-solutions/yii2-cms-analytics": "*"
 ```
 
@@ -73,7 +73,7 @@ Add the serviceAccountName (xxx@developer.gserviceaccount.com) as a new user to 
 
 
 Create the alias '@google/api' in the bootstrap file in common/config like so:
-```
+```php
 Yii::setAlias('google/api', dirname(dirname(__DIR__)) . '/vendor/google/apiclient/src');
 ```
 
@@ -82,41 +82,53 @@ Import the translations and use category 'infoweb/analytics':
 yii i18n/import @infoweb/analytics/messages
 ```
 
-If you can't access the /tmp folder on your server (shared hosting), change line 94 in vendor\google\apiclient\src\Google\
-```
+If you can't access the `/tmp` folder on your server (shared hosting), change line 94 in `vendor\google\apiclient\src\Google\`
+```php
 'directory' => dirname(Yii::getAlias('@webroot')) . '/runtime/Google_Client'
 ```
 
 Usage
 -----
 
-Once the extension is installed, simply use it in your code by :
+Once the extension is installed, replace the contents of `backend/views/site/index.php` with the following:
 
 ```php
+<?php
 use infoweb\analytics\Analytics;
+
+$this->title = Yii::$app->name;
+?>
 ```
 
 ```php
-<div class="row">
-    <div class="col-lg-12">
-        <span class="pull-right"><strong><?= Yii::t('app', 'From') ?>&nbsp;<?= date('d-m-Y', strtotime('-1 month')); ?>&nbsp;<?= Yii::t('app', 'to') ?>&nbsp;<?= date('d-m-Y') ?></strong></span>
-        <h1 class="page-header">Dashboard</h1>
+<div class="site-index">
+    <div class="body-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">
+                    <?= Yii::t('app', 'Dashboard'); ?>
+                    <span class="pull-right report-period">
+                        <strong><?= Yii::$app->formatter->asDate(date('d-m-Y', strtotime('-1 month')), 'medium'); ?>&nbsp;-&nbsp;<?= Yii::$app->formatter->asDate(date('d-m-Y'), 'medium'); ?></strong>
+                    </span>
+                </h1>
+            </div>
+        </div>
+
+        <div class="row">
+            <?= Analytics::widget(['dataType' => Analytics::TOTAl_SESSIONS]); ?>
+            <?= Analytics::widget(['dataType' => Analytics::TOTAL_USERS]); ?>
+            <?= Analytics::widget(['dataType' => Analytics::TOTAL_PAGE_VIEWS]); ?>
+            <?= Analytics::widget(['dataType' => Analytics::AVERAGE_SESSION_LENGTH]); ?>
+        </div>
+
+        <div class="row">
+            <?= Analytics::widget(['dataType' => Analytics::SESSIONS]); ?>
+        </div>
+        <div class="row">
+            <?= Analytics::widget(['dataType' => Analytics::VISITORS]); ?>
+            <?= Analytics::widget(['dataType' => Analytics::COUNTRIES]); ?>
+        </div>
     </div>
-</div>
-
-<div class="row">
-    <?= Analytics::widget(['dataType' => Analytics::TOTAl_SESSIONS]); ?>
-    <?= Analytics::widget(['dataType' => Analytics::TOTAL_USERS]); ?>
-    <?= Analytics::widget(['dataType' => Analytics::TOTAL_PAGE_VIEWS]); ?>
-    <?= Analytics::widget(['dataType' => Analytics::AVERAGE_SESSION_LENGTH]); ?>
-</div>
-
-<div class="row">
-    <?= Analytics::widget(['dataType' => Analytics::SESSIONS]); ?>
-</div>
-<div class="row">
-    <?= Analytics::widget(['dataType' => Analytics::VISITORS]); ?>
-    <?= Analytics::widget(['dataType' => Analytics::COUNTRIES]); ?>
 </div>
 ```
 
