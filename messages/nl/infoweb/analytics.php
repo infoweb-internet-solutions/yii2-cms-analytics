@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'Analytics' => 'Analytics',
     'Average session length' => 'Gemiddelde sessieduur',
     'Countries' => 'Landen',
     'Day' => 'Dag',
