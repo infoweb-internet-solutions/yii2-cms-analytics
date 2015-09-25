@@ -43,3 +43,8 @@
 .page-header .report-period {
     font-size: 15px;
 }
+
+.google-visualization-table,
+.google-visualization-table-table {
+    width: 100%;
+}
