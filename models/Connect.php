@@ -148,12 +148,14 @@ class Connect extends \yii\base\Action
                     ['id' => 'sessions', 'label' => Yii::t('infoweb/analytics', 'Sessions'), 'type' => 'number'],
                 ];
     
-                foreach ($results['rows'] as $result)
-                {
-                    $data['rows'][] = ['c' => [
-                        ['v' => $result[0]],
-                        ['v' => (int)$result[1]]],
-                    ];
+                if ($results['rows']) {
+                    foreach ($results['rows'] as $result)
+                    {
+                        $data['rows'][] = ['c' => [
+                            ['v' => $result[0]],
+                            ['v' => (int)$result[1]]],
+                        ];
+                    }    
                 }
                 
                 $this->cacheData('infoweb/analytics/data/countries', $data);
