@@ -4,6 +4,7 @@ namespace infoweb\analytics\models;
 
 use Yii;
 use yii\base\Exception as BaseException;
+use yii\base\Exception;
 
 /**
  *

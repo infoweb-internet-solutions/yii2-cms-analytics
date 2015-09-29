@@ -6,7 +6,7 @@
 
 #analytics-visitors {
     width: 100%;
-    height: 220px;
+    height: 260px;
 }
 
 /**
@@ -47,4 +47,12 @@
 .google-visualization-table,
 .google-visualization-table-table {
     width: 100%;
+}
+
+.panel .title {
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 15px;
+    position: relative;
+    bottom: 3px;
 }
