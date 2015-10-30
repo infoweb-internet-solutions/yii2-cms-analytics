@@ -21,8 +21,8 @@
         }
     ],
 	"require": {
-	   "yiisoft/yii2": "@stable",
-        "google/apiclient": "@stable"
+	    "yiisoft/yii2": "@stable",
+        "google/apiclient": "1.*"
 
 	},
 	"autoload": {
