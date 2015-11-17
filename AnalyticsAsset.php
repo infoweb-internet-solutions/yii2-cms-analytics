@@ -2,10 +2,8 @@
 namespace infoweb\analytics;
 
 use yii\web\AssetBundle;
-use yii\web\View;
 
-class AnalyticsAsset extends AssetBundle
-{
+class AnalyticsAsset extends AssetBundle {
     public $sourcePath = '@infoweb/analytics/assets/';
     
     public $css = [
