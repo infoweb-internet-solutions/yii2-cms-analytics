@@ -18,6 +18,7 @@ class Analytics extends \yii\base\Widget
     const VISITORS = 'visitors';
     const COUNTRIES = 'countries';
     const TOTAl_SESSIONS = 'total_sessions';
+    const TOTAL_SESSIONS = 'total_sessions';
     const TOTAL_USERS = 'total_users';
     const TOTAL_PAGE_VIEWS = 'total_page_views';
     const AVERAGE_SESSION_LENGTH = 'average_session_length';
